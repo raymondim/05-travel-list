@@ -31,7 +31,7 @@ export default function App() {
         onDeleteItem={handleDeleteItem}
         onTogglePacked={handleTogglePacked}
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -117,11 +117,23 @@ function Item({ item, onDeleteItem, onTogglePacked }) {
     </li>
   );
 }
-function Stats() {
+function Stats({ items }) {
+  function calcNumPacked() {
+    var packed = 0;
+    items.forEach((item) => {
+      if (item.packed) packed++;
+    });
+    return packed;
+  }
+
+  const numPacked = calcNumPacked();
+
   return (
     <footer className='stats'>
       <em>
-        🧳 You have X items on your list, and you have already packed X (X%)
+        🧳 You have {items.length} items on your list, and you have already
+        packed {numPacked} (
+        {items.length > 0 ? numPacked / items.length : '100'}%)
       </em>
     </footer>
   );
